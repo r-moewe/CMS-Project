@@ -29,9 +29,9 @@ if (isset($_POST['submit'])) {
 
         $create_category_query = mysqli_query($connection, $query);
 
-        if (!$create_category_query) {
-            die('QUERY FAILED' . mysqli_error());
-        }
+        // if (!$create_category_query) {
+        //     die('QUERY FAILED' . mysqli_error());
+        // }
     }
 
 
