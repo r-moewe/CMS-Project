@@ -3,14 +3,6 @@
     <div id="wrapper">
 
 
-<?php 
-
-if ($connection) {
-    echo "YEEEEEEEEEES";
-}
-
-
-?>
 
 
     <!-- Navigation -->

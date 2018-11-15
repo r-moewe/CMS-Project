@@ -4,19 +4,19 @@
 
     <!-- Navigation -->
 <?php include 'includes/admin_navigation.php'; ?>
-        <div id="page-wrapper">
+    <div id="page-wrapper">
 
-            <div class="container-fluid">
+        <div class="container-fluid">
 
-                <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Welcome to admin
-                            <small>Author Name</small>
-                        </h1>
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        Welcome to admin
+                        <small>Author Name</small>
+                    </h1>
 
-                        <div class="col-xs-6">
+                    <div class="col-xs-6">
 
 <?php
 if (isset($_POST['submit'])) {
@@ -33,29 +33,72 @@ if (isset($_POST['submit'])) {
         //     die('QUERY FAILED' . mysqli_error());
         // }
     }
-
-
 }
 
 ?>
+<form action="" method="post">
+<div class="form-group">
+    <label for="cat-title">Add Category</label>
+    <input type="text" class="form-control" name="cat_title">
+</div>
+<input class="btn btn-primary" type="submit" name="submit" value="Add Category">
+
+</form>
+<form action="" method="post">
+<div class="form-group">
+    <label for="cat-title">Edit Category</label>
+
+    <?php
+
+    if (isset($_GET['edit'])) {
+        $cat_id = $_GET['edit'];
+
+        $query = "SELECT * FROM categories WHERE cat_id =$cat_id";
+        $select_categories_id = mysqli_query($connection, $query);
 
 
-                        <form action="" method="post">
-                            <div class="form-group">
-                                <label for="cat-title">Add Category</label>
-                                <input type="text" class="form-control" name="cat_title">
+        while ($row = mysqli_fetch_assoc($select_categories_id)) {
+            $cat_id = $row['cat_id'];
+            $cat_title = $row['cat_title'];
+            ?>
+
+    <input value="<?php if (isset($cat_title)) {
+                        echo $cat_title;
+                    } ?>" type="text" class="form-control" name="cat_title">
+
+
+            <?php 
+        }
+    } ?>
+                                  
+<?php //UPDATE QUERY
+
+if (isset($_POST['update_category'])) {
+    $the_cat_title = $_POST['cat_title'];
+    $query = "UPDATE categories SET cat_title = '{$the_cat_title}' WHERE cat_id = {$cat_id}";
+    $update_query = mysqli_query($connection, $query);
+
+    if (!$update_query) {
+        die("QUERY FAILED" . mysqli_error($connection));
+    }
+}
+?>
+
+
+
                             </div>
-                            <input class="btn btn-primary" type="submit" name="submit" value="Add Category">
+                            <input class="btn btn-primary" type="submit" name="update_category" value="Update Category">
 
                         </form>
+
+
+
+
                         </div>
                         <!-- Add Category Form -->
 
                            <div class="col-xs-6">
-<?php
-$query = "SELECT * FROM categories";
-$select_categories = mysqli_query($connection, $query);
-?>
+
 
 
                             <table class="table table-bordered table-hover">
@@ -67,14 +110,31 @@ $select_categories = mysqli_query($connection, $query);
                                 </thead>
                                 <tbody>
                                     
-  <?php
+  <?php //FIND ALL CATEGORIES QUERY
+
+    $query = "SELECT * FROM categories";
+    $select_categories = mysqli_query($connection, $query);
+
+
     while ($row = mysqli_fetch_assoc($select_categories)) {
         $cat_id = $row['cat_id'];
         $cat_title = $row['cat_title'];
         echo "<tr>";
         echo "<td>{$cat_id}</td>";
         echo "<td>{$cat_title}</td>";
+        echo "<td><a href='categories.php?delete={$cat_id}'>Delete</a></td>";
+        echo "<td><a href='categories.php?edit={$cat_id}'>Edit</a></td>";
         echo "</tr>";
+    }
+    ?>
+
+    <?php
+
+    if (isset($_GET['delete'])) {
+        $the_cat_id = $_GET['delete'];
+        $query = "DELETE FROM categories WHERE cat_id = {$the_cat_id}";
+        $delete_query = mysqli_query($connection, $query);
+        header("Location:categories.php");//refreshing
     }
     ?>
                                   
