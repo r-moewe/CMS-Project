@@ -38,6 +38,7 @@
             echo "<td>$post_tags</td>";
             echo "<td>$post_count</td>";
             echo "<td>$post_date</td>";
+            echo "<td><a href='posts.php?edit_post={$post_id}'>編集</a></td>";
             echo "<td><a href='posts.php?delete={$post_id}'>×</a></td>";
             echo "</tr>";
         }

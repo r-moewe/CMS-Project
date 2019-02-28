@@ -28,8 +28,8 @@
                             include "includes/add_post.php";
                             break;
 
-                        case '35':
-                            echo "nice35";
+                        case 'edit_post':
+                            include "includes/edit_post.php";
                             break;
 
                         case '36':
@@ -37,7 +37,7 @@
                             break;
                         default:
 
-                            include "view_all_posts.php";
+                            include "includes/view_all_posts.php";
                             break;
                     }
 
